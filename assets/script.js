@@ -23,33 +23,52 @@ const bullets =  document.getElementsByClassName('dot')
 const image = document.querySelector('.banner-img');
 const slideText = document.getElementById("text");
 
+var currentIndex = 0;
+
+// afficher la diapositive suivante
+function next() {
+	if (currentIndex === slides.length - 1) {// verifie si c'est le dernier du tableau
+		currentIndex = 0; // remet l'index a 0
+	} else {
+		currentIndex ++; // sinon passe au suivant
+	}
+    slideText.innerHTML = slides[currentIndex].tagLine; //integre la tagline
+	image.src = "./assets/images/slideshow/" + slides[currentIndex].image; //met a jour le path de l'image en fonction de l'index
+}
+
+//afficher la diapositive suivante
+function prev() {
+    if (currentIndex === 0) { // verifie si index est egale a 0
+        currentIndex = slides.length - 1; // reinitialise a l'objet comme dernier du tableau
+    } else {
+        currentIndex --; //passe au precedent
+    }
+    slideText.innerHTML = slides[currentIndex].tagLine;
+    image.src = "./assets/images/slideshow/" + slides[currentIndex].image;
+	
+}
+
 arrow_right.addEventListener("click", (event) => {
-	// Parcour les éléments de la liste "bullets"
-	for(i=0; i < bullets.length; i++){
-		//verifie si il la classe est presente
-		if(bullets[i].classList.contains('dot_selected')){
-			//si oui, on supprime
-			bullets[i].classList.remove('dot_selected')
-			//on ajoute la classe pour le passer en mode actif sur le bullet/dot
-			bullets[i+1].classList.add('dot_selected')
-			//arrete la boucle
-			break;
+	next();
+	//Parcour les éléments de la liste "bullets"
+	for( i=0; i < bullets.length; i++){			
+		if(bullets[i].classList.contains('dot_selected')){ //verifie si il la classe est presente			
+			bullets[i].classList.remove('dot_selected') //si oui, on supprime			
+			bullets[i+1].classList.add('dot_selected')	//on ajoute la classe pour le passer en mode actif sur le bullet/dot
+			break;	//arrete la boucle
 		}
 	}
-	image.src = "./assets/images/slideshow/" + slides[i+1].image;
-	slideText.innerHTML = slides[i+1].tagLine;
-})
+ })
 
 arrow_left.addEventListener("click", (event) => {
-	for(i=0; i < bullets.length; i++){
+	prev();
+	for( i=0; i < bullets.length; i++){
 		if(bullets[i].classList.contains('dot_selected')){
 			bullets[i].classList.remove('dot_selected')
 			bullets[i-1].classList.add('dot_selected')
 			break;
 		}
 	}
-	image.src = "./assets/images/slideshow/" + slides[i-1].image;
-	slideText.innerHTML = slides[i-1].tagLine;
 });
 	
 for (let i in slides) {
