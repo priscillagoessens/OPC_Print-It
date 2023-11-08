@@ -23,62 +23,55 @@ const bullets =  document.getElementsByClassName('dot')
 const image = document.querySelector('.banner-img');
 const slideText = document.getElementById("text");
 
-var currentIndex = 0;
-
-// afficher la diapositive suivante
-function next() {
-	if (currentIndex === slides.length - 1) {// verifie si c'est le dernier du tableau
-		currentIndex = 0; // remet l'index a 0
-	} else {
-		currentIndex ++; // sinon passe au suivant
-	}
-    slideText.innerHTML = slides[currentIndex].tagLine; //integre la tagline
-	image.src = "./assets/images/slideshow/" + slides[currentIndex].image; //met a jour le path de l'image en fonction de l'index
-}
-
-//afficher la diapositive suivante
-function prev() {
-    if (currentIndex === 0) { // verifie si index est egale a 0
-        currentIndex = slides.length - 1; // reinitialise a l'objet comme dernier du tableau
-    } else {
-        currentIndex --; //passe au precedent
-    }
-    slideText.innerHTML = slides[currentIndex].tagLine;
-    image.src = "./assets/images/slideshow/" + slides[currentIndex].image;
-	
-}
-
+//event listener des fleches qui font appel a des fontions next et prev
 arrow_right.addEventListener("click", (event) => {
 	next();
-	//Parcour les éléments de la liste "bullets"
-	for( i=0; i < bullets.length; i++){			
-		if(bullets[i].classList.contains('dot_selected')){ //verifie si il la classe est presente			
-			bullets[i].classList.remove('dot_selected') //si oui, on supprime			
-			bullets[i+1].classList.add('dot_selected')	//on ajoute la classe pour le passer en mode actif sur le bullet/dot
-			break;	//arrete la boucle
-		}
-	}
  })
 
 arrow_left.addEventListener("click", (event) => {
 	prev();
-	for( i=0; i < bullets.length; i++){
-		if(bullets[i].classList.contains('dot_selected')){
-			bullets[i].classList.remove('dot_selected')
-			bullets[i-1].classList.add('dot_selected')
-			break;
-		}
-	}
 });
-	
-for (let i in slides) {
-	//creer une div pour chaque dot en fonction du nb d'objet
-	const dot = document.createElement('div');
-	dot.className = "dot"
-	document.getElementsByClassName('dots')[0].appendChild(dot);	
+
+//ajout d'un bullet point pour chaque objet du tableau
+for (i=0; i< slides.length; i++) {
+	const dot = document.createElement('div'); //creer une div pour chaque point 
+	dot.className = "dot" //donne une classe "dot"
+	document.getElementsByClassName('dots')[0].appendChild(dot); //selectionne tout les elements avec la classe "dots" et slectionne le premier element pour ajouter un element enfant 	
+}
+document.querySelector('.dots :first-child').classList.add('dot_selected'); // ajoute au premier enfant la classe dot_selected
+
+// afficher la diapositive suivante
+let slideIndex = 0;
+function next() {
+	if (slideIndex === slides.length - 1) {// verifie si c'est le dernier objet du tableau
+		slideIndex = 0; // remet l'index a 0
+	} else {
+		slideIndex ++; // sinon on incremente l'index pour passer au suivant
+	}
+    slideText.innerHTML = slides[slideIndex].tagLine; //integre et met a jour la tagline en fonction de l'index
+	image.src = "./assets/images/slideshow/" + slides[slideIndex].image; //met a jour le path de l'image en fonction de l'index
+	updateBullets() //fait appel a la fonction pour mettre a jour les bullets
 }
 
-document.querySelector('.dots :first-child').classList.add('dot_selected')
+//afficher la diapositive suivante
+function prev() {
+    if (slideIndex === 0) { // verifie si index est egale a 0
+        slideIndex = slides.length - 1; // reinitialise a l'objet comme dernier du tableau
+    } else {
+        slideIndex --; //passe au precedent
+    }
+    slideText.innerHTML = slides[slideIndex].tagLine;
+    image.src = "./assets/images/slideshow/" + slides[slideIndex].image;
+	updateBullets()	;
+}
+
+//mettre a jour les bullets
+function updateBullets(){
+	for (i = 0; i < bullets.length; i++) { // parcours les éléments de la liste
+		bullets[i].classList.remove('dot_selected'); // supprime la classe si l'element actuel a la classe 
+	}
+	bullets[slideIndex].classList.add('dot_selected'); // ajoute la classe a l'element grace a l'incrementation de slideIndex
+}
 
 
 
