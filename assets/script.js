@@ -22,48 +22,41 @@ const arrow_right = document.querySelector('.arrow_right');
 const bullets =  document.getElementsByClassName('dot')
 const image = document.querySelector('.banner-img');
 const slideText = document.getElementById("text");
+let slideIndex = 0;
 
-//event listener des fleches qui font appel a des fontions next et prev
-arrow_right.addEventListener("click", (event) => {
-	next();
- })
-
-arrow_left.addEventListener("click", (event) => {
-	prev();
+//initialisation des bullet au chargement de la page 
+window.addEventListener("load", (event) => {
+	//ajout d'un bullet point pour chaque objet du tableau
+	for (i=0; i< slides.length; i++) {
+		const dot = document.createElement('div'); //creer une div pour chaque point 
+		dot.className = "dot" //donne une classe "dot"
+		document.getElementsByClassName('dots')[0].appendChild(dot); //selectionne tout les elements avec la classe "dots" et slectionne le premier element pour ajouter un element enfant 	
+	}
+	document.querySelector('.dots :first-child').classList.add('dot_selected'); // ajoute au premier enfant la classe dot_selected
 });
 
-//ajout d'un bullet point pour chaque objet du tableau
-for (i=0; i< slides.length; i++) {
-	const dot = document.createElement('div'); //creer une div pour chaque point 
-	dot.className = "dot" //donne une classe "dot"
-	document.getElementsByClassName('dots')[0].appendChild(dot); //selectionne tout les elements avec la classe "dots" et slectionne le premier element pour ajouter un element enfant 	
-}
-document.querySelector('.dots :first-child').classList.add('dot_selected'); // ajoute au premier enfant la classe dot_selected
-
-// afficher la diapositive suivante
-let slideIndex = 0;
-function next() {
+//event listener des fleches
+arrow_right.addEventListener("click", (event) => {
 	if (slideIndex === slides.length - 1) {// verifie si c'est le dernier objet du tableau
 		slideIndex = 0; // remet l'index a 0
 	} else {
-		slideIndex ++; // sinon on incremente l'index pour passer au suivant
+		slideIndex++; // sinon on incremente l'index pour passer au suivant
 	}
     slideText.innerHTML = slides[slideIndex].tagLine; //integre et met a jour la tagline en fonction de l'index
 	image.src = "./assets/images/slideshow/" + slides[slideIndex].image; //met a jour le path de l'image en fonction de l'index
 	updateBullets() //fait appel a la fonction pour mettre a jour les bullets
-}
+ })
 
-//afficher la diapositive suivante
-function prev() {
-    if (slideIndex === 0) { // verifie si index est egale a 0
+arrow_left.addEventListener("click", (event) => {
+	if (slideIndex === 0) { // verifie si index est egale a 0
         slideIndex = slides.length - 1; // reinitialise a l'objet comme dernier du tableau
     } else {
-        slideIndex --; //passe au precedent
+        slideIndex--; //passe au precedent
     }
     slideText.innerHTML = slides[slideIndex].tagLine;
     image.src = "./assets/images/slideshow/" + slides[slideIndex].image;
 	updateBullets()	;
-}
+});
 
 //mettre a jour les bullets
 function updateBullets(){
@@ -72,8 +65,6 @@ function updateBullets(){
 	}
 	bullets[slideIndex].classList.add('dot_selected'); // ajoute la classe a l'element grace a l'incrementation de slideIndex
 }
-
-
 
 
 
