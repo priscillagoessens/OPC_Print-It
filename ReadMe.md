@@ -1,4 +1,4 @@
-!Print It(/assets/images/logo.png)
+!Print It(/images/logo.png)
 
 # Print It
 
