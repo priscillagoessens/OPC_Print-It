@@ -1,6 +1,6 @@
 !Print It(/assets/images/logo.png)
 
-# Print It 🌴🏖️
+# Print It
 
 ## Description :
 
